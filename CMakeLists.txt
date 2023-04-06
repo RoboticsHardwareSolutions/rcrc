@@ -15,25 +15,25 @@ add_executable(rcrc_test
 
 add_subdirectory(test/runit)
 
-target_include_directories(rcrc_test PRIVATE . )
+target_include_directories(rcrc_test PRIVATE ./test/ )
 if (NOT MSVC)
-    target_link_libraries(rcrc_test PRIVATE m)
+    target_link_libraries(rcrc_test PRIVATE ./test/ )
 endif ()
 
 
 if (MSVC OR MSYS OR MINGW)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_WINDOWS)
-    target_link_libraries(${PROJECT_NAME} PUBLIC runit)
+    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 if (APPLE)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_APPLE)
-    target_link_libraries(${PROJECT_NAME} PUBLIC runit)
+    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 if (UNIX AND NOT APPLE)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_UNIX)
-    target_link_libraries(${PROJECT_NAME} PUBLIC runit)
+    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 set(FILES_FOR_FORMATTING
