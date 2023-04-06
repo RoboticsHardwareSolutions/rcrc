@@ -9,31 +9,23 @@ add_library(rcrc crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
         crc/crc32.h crc/crc64.h crc/crc8.h crc/crc16.h crc/crc_poly.h)
 
 add_executable(rcrc_test
+        test/runit/src/runit.c
         crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
         test/test.c)
 
 
-add_subdirectory(test/runit)
-
-target_include_directories(rcrc_test PRIVATE ./test/ )
-if (NOT MSVC)
-    target_link_libraries(rcrc_test PRIVATE ./test/ )
-endif ()
-
+target_include_directories(rcrc_test PRIVATE ./  test/runit/src )
 
 if (MSVC OR MSYS OR MINGW)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_WINDOWS)
-    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 if (APPLE)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_APPLE)
-    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 if (UNIX AND NOT APPLE)
     target_compile_definitions(rcrc_test PUBLIC -DRCRC_FOR_UNIX)
-    target_link_libraries(rcrc_test PRIVATE runit)
 endif ()
 
 set(FILES_FOR_FORMATTING
