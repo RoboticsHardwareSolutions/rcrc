@@ -96,6 +96,7 @@ int main(){
     crc8_poly();
     crc16_poly();
     crc32_polyt();
+    runit_report();
     return runit_at_least_one_fail;
 }
 
