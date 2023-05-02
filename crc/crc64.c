@@ -147,10 +147,9 @@ static const uint64_t crc64_tab[256] = {
 };
 
 uint64_t crc64(const char *s, int l) {
-    int j = 0;
     uint64_t crc = 0;
 
-    for (j = 0; j < l; j++) {
+    for (int j = 0; j < l; j++) {
         uint8_t byte = s[j];
         crc = crc64_tab[(uint8_t)crc ^ byte] ^ (crc >> 8);
     }
