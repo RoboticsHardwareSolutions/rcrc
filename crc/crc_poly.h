@@ -27,5 +27,5 @@ uint64_t crc64_poly(uint64_t poly, uint16_t value);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus  */
-#endif // _CRC_CRC_POLY_H
+#endif  /* __cplusplus  */
+#endif  // _CRC_CRC_POLY_H
