@@ -1,11 +1,22 @@
-#ifndef _CRC_CRC_POLY_H
-#define _CRC_CRC_POLY_H
+#pragma once
 
-#include <stdint.h>
+#include "stdint.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus  */
+
+// LSB-first
+uint8_t crc8_lsb(const char* buf, int len);
+
+// MSB-first
+uint8_t crc8_msb(const char* buf, int len);
+
+uint16_t crc16(const char* buf, int len);
+
+uint32_t crc32(const char* s, int len);
+
+uint64_t crc64(const char* s, int l);
 
 // LSB-first
 uint8_t crc8_poly_lsb(uint8_t poly, uint8_t value);
@@ -27,5 +38,4 @@ uint64_t crc64_poly(uint64_t poly, uint16_t value);
 
 #ifdef __cplusplus
 }
-#endif  /* __cplusplus  */
-#endif  // _CRC_CRC_POLY_H
+#endif /* __cplusplus  */

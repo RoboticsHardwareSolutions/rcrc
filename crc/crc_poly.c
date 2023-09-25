@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include "crc_poly.h"
+#include "../rcrc.h"
 
 // LSB-first
 uint8_t crc8_poly_lsb(uint8_t poly, uint8_t value)
