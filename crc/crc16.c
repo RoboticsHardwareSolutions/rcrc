@@ -1,8 +1,7 @@
 #include "rcrc.h"
 
-#if defined(CRC_CCITT_POLY_1021)
 /*
- *  CRC16 implementation according to CCITT standards.
+ *  CRC16 implementation according to xmodem standards.
  *
  * The XMODEM CRC 16 algorithm, using the following parameters:
  *
@@ -16,7 +15,7 @@
  * Output for "123456789"     : 31C3
  */
 
-static const uint16_t crc16tab[256] =
+static const uint16_t crc16table_xmodem[256] =
     {0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7, 0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad,
      0xe1ce, 0xf1ef, 0x1231, 0x0210, 0x3273, 0x2252, 0x52b5, 0x4294, 0x72f7, 0x62d6, 0x9339, 0x8318, 0xb37b, 0xa35a,
      0xd3bd, 0xc39c, 0xf3ff, 0xe3de, 0x2462, 0x3443, 0x0420, 0x1401, 0x64e6, 0x74c7, 0x44a4, 0x5485, 0xa56a, 0xb54b,
@@ -37,16 +36,15 @@ static const uint16_t crc16tab[256] =
      0x1ce0, 0x0cc1, 0xef1f, 0xff3e, 0xcf5d, 0xdf7c, 0xaf9b, 0xbfba, 0x8fd9, 0x9ff8, 0x6e17, 0x7e36, 0x4e55, 0x5e74,
      0x2e93, 0x3eb2, 0x0ed1, 0x1ef0};
 
-unsigned short crc16(const char* buf, int len)
+unsigned short crc16_xmodem(const char* buf, int len)
 {
     int      counter;
     uint16_t crc = 0;
     for (counter = 0; counter < len; counter++)
-        crc = (crc << 8) ^ crc16tab[((crc >> 8) ^ *buf++) & 0x00FF];
+        crc = (crc << 8) ^ crc16table_xmodem[((crc >> 8) ^ *buf++) & 0x00FF];
     return crc;
 }
 
-#else
 
 /*
   Name  : CRC-16
@@ -58,7 +56,7 @@ unsigned short crc16(const char* buf, int len)
   MaxLen: 4095 байт (32767 бит) - обнаружение
     одинарных, двойных, тройных и всех нечетных ошибок
 */
-const unsigned short crc16table[256] =
+const unsigned short crc16table_modbus[256] =
     {0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241, 0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1,
      0xC481, 0x0440, 0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40, 0x0A00, 0xCAC1, 0xCB81, 0x0B40,
      0xC901, 0x09C0, 0x0880, 0xC841, 0xD801, 0x18C0, 0x1980, 0xD941, 0x1B00, 0xDBC1, 0xDA81, 0x1A40, 0x1E00, 0xDEC1,
@@ -79,12 +77,10 @@ const unsigned short crc16table[256] =
      0x4C80, 0x8C41, 0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641, 0x8201, 0x42C0, 0x4380, 0x8341,
      0x4100, 0x81C1, 0x8081, 0x4040};
 
-unsigned short crc16(const char* buf, int len)
+unsigned short crc16_modbus(const char* buf, int len)
 {
     unsigned short crc = 0xFFFF;
     while (len--)
-        crc = (crc >> 8) ^ crc16table[(crc & 0xFF) ^ *buf++];
+        crc = (crc >> 8) ^ crc16table_modbus[(crc & 0xFF) ^ *buf++];
     return crc;
 }
-
-#endif

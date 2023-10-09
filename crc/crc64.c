@@ -1,4 +1,4 @@
-#include "../rcrc.h"
+#include "rcrc.h"
 
 /* Redis uses the CRC64 variant with "Jones" coefficients and init value of 0.
  *
@@ -14,7 +14,6 @@
  *
  *
  */
-
 
 static const uint64_t crc64_tab[256] = {
     0x0000000000000000ULL, 0x7ad870c830358979ULL, 0xf5b0e190606b12f2ULL, 0x8f689158505e9b8bULL, 0xc038e5739841b68fULL,

@@ -17,12 +17,20 @@ void crc8_basic(void)
     runit_true(crc8_lsb(data, strlen(data)) == expect);
 }
 
-void crc16_basic(void)
+void crc16_xmodem_basic(void)
 {
     const char* inData = "123456789";
     uint16_t    expect = 0x31C3;
 
-    runit_true(crc16(inData, 9) == expect);
+    runit_true(crc16_xmodem(inData, 9) == expect);
+}
+
+void crc16_modbus_basic(void)
+{
+    const char* inData = "123456789";
+    uint16_t    expect = 0x4B37;
+
+    runit_true(crc16_modbus(inData, 9) == expect);
 }
 
 void crc32_basic(void)
@@ -82,7 +90,8 @@ int main()
 {
     printf("rcr start unit tests\n");
     crc8_basic();
-    crc16_basic();
+    crc16_modbus_basic();
+    crc16_xmodem_basic();
     crc32_basic();
     crc64_basic();
     crc8_poly();

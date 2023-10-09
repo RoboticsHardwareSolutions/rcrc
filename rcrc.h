@@ -12,7 +12,9 @@ uint8_t crc8_lsb(const char* buf, int len);
 // MSB-first
 uint8_t crc8_msb(const char* buf, int len);
 
-uint16_t crc16(const char* buf, int len);
+uint16_t crc16_modbus(const char* buf, int len);
+
+uint16_t crc16_xmodem(const char* buf, int len);
 
 uint32_t crc32(const char* s, int len);
 
