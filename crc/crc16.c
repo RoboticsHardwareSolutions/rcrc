@@ -45,7 +45,6 @@ unsigned short crc16_xmodem(const char* buf, int len)
     return crc;
 }
 
-
 /*
   Name  : CRC-16
   Poly  : 0x8005    x^16 + x^15 + x^2 + 1
