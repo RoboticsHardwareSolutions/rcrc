@@ -1,4 +1,4 @@
-#include "../rcrc.h"
+#include "rcrc.h"
 
 /*
  *  CRC16 implementation according to CCITT standards.
