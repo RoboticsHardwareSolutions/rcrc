@@ -36,12 +36,13 @@ static const uint16_t crc16table_xmodem[256] =
      0x1ce0, 0x0cc1, 0xef1f, 0xff3e, 0xcf5d, 0xdf7c, 0xaf9b, 0xbfba, 0x8fd9, 0x9ff8, 0x6e17, 0x7e36, 0x4e55, 0x5e74,
      0x2e93, 0x3eb2, 0x0ed1, 0x1ef0};
 
-unsigned short crc16_xmodem(const char* buf, int len)
+unsigned short crc16_xmodem(const char* buf, unsigned short len)
 {
-    int      counter;
     uint16_t crc = 0;
-    for (counter = 0; counter < len; counter++)
-        crc = (crc << 8) ^ crc16table_xmodem[((crc >> 8) ^ *buf++) & 0x00FF];
+    while (len--) {
+        uint8_t index = ((crc >> 8) ^ *buf++) & 0x00FF;
+        crc = (crc << 8) ^ crc16table_xmodem[index];
+    }
     return crc;
 }
 
@@ -55,7 +56,7 @@ unsigned short crc16_xmodem(const char* buf, int len)
   MaxLen: 4095 байт (32767 бит) - обнаружение
     одинарных, двойных, тройных и всех нечетных ошибок
 */
-const unsigned short crc16table_modbus[256] =
+static const unsigned short crc16table_modbus[256] =
     {0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241, 0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1,
      0xC481, 0x0440, 0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40, 0x0A00, 0xCAC1, 0xCB81, 0x0B40,
      0xC901, 0x09C0, 0x0880, 0xC841, 0xD801, 0x18C0, 0x1980, 0xD941, 0x1B00, 0xDBC1, 0xDA81, 0x1A40, 0x1E00, 0xDEC1,
@@ -76,10 +77,12 @@ const unsigned short crc16table_modbus[256] =
      0x4C80, 0x8C41, 0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641, 0x8201, 0x42C0, 0x4380, 0x8341,
      0x4100, 0x81C1, 0x8081, 0x4040};
 
-unsigned short crc16_modbus(const char* buf, int len)
+unsigned short crc16_modbus(const char* buf, unsigned short len)
 {
     unsigned short crc = 0xFFFF;
-    while (len--)
-        crc = (crc >> 8) ^ crc16table_modbus[(crc & 0xFF) ^ *buf++];
+    while (len--) {
+        uint8_t index = (crc & 0xFF) ^ *buf++;
+        crc = (crc >> 8) ^ crc16table_modbus[index];
+    }
     return crc;
 }
