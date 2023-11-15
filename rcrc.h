@@ -16,6 +16,8 @@ uint16_t crc16_modbus(const char* buf, unsigned short len);
 
 uint16_t crc16_xmodem(const char* buf, unsigned short len);
 
+uint16_t crc16_ccitt(const char* buf, unsigned short len);
+
 uint32_t crc32(const char* s, int len);
 
 uint64_t crc64(const char* s, int l);
