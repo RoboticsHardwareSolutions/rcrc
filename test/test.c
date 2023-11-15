@@ -33,6 +33,14 @@ void crc16_modbus_basic(void)
     runit_true(crc16_modbus(inData, 9) == expect);
 }
 
+void crc16_ccitt_basic(void)
+{
+    const char* inData = "123456789";
+    uint16_t    expect = 0x906E;
+
+    runit_true(crc16_ccitt(inData, 9) == expect);
+}
+
 void crc32_basic(void)
 {
     const char* inData = "123456789";
@@ -52,7 +60,6 @@ void crc64_basic(void)
 void crc8_poly(void)
 {
     uint8_t poly             = 0x31;
-    uint8_t crcTab[0xFF + 1] = {0};
     uint8_t expect           = 0x00;
     runit_true(crc8_poly_msb(poly, 0) == expect);
     expect = 0x31;
@@ -65,7 +72,6 @@ void crc16_poly(void)
 {
     // poly = x^16 + x^12 + x^5 + 1 = 0x1021
     uint16_t poly             = 0x1021;
-    uint16_t crcTab[0xFF + 1] = {0};
     uint16_t expect           = 0x0000;
     runit_true(crc16_poly_msb(poly, 0) == expect);
     expect = 0x1021;
@@ -77,7 +83,6 @@ void crc16_poly(void)
 void crc32_polyt(void)
 {
     uint32_t poly             = 0xedb88320;
-    uint32_t crcTab[0xFF + 1] = {0};
     uint32_t expect           = 0x00000000L;
     runit_true(crc32_poly(poly, 0) == expect);
     expect = 0x77073096L;
@@ -91,6 +96,7 @@ int main()
     printf("rcr start unit tests\n");
     crc8_basic();
     crc16_modbus_basic();
+    crc16_ccitt_basic();
     crc16_xmodem_basic();
     crc32_basic();
     crc64_basic();
