@@ -12,34 +12,37 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/crc/
         ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(${PROJECT_NAME}_test
-        test/runit/src/runit.c
-        crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
-        test/test.c)
 
-target_include_directories(${PROJECT_NAME}_test PRIVATE ./ test/runit/src)
+# Test runner executable testing the static library
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
+    add_executable(${PROJECT_NAME}_test
+            test/runit/src/runit.c
+            crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
+            test/test.c)
 
-if (MSVC OR MSYS OR MINGW)
-    target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_WINDOWS)
+    target_include_directories(${PROJECT_NAME}_test PRIVATE ./ test/runit/src)
+
+    if (MSVC OR MSYS OR MINGW)
+        target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_WINDOWS)
+    endif ()
+
+    if (APPLE)
+        target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_APPLE)
+    endif ()
+
+    if (UNIX AND NOT APPLE)
+        target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_UNIX)
+    endif ()
+
+    enable_testing()
+    add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
 endif ()
-
-if (APPLE)
-    target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_APPLE)
-endif ()
-
-if (UNIX AND NOT APPLE)
-    target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRCRC_FOR_UNIX)
-endif ()
-
-enable_testing()
-add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
-
 
 set(FILES_FOR_FORMATTING
         crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
         crc/crc32.h crc/crc64.h crc/crc8.h crc/crc16.h crc/crc_poly.h
         test/test.c
-        )
+)
 
 # clang-format
 find_program(clang_format NAMES clang-format)
