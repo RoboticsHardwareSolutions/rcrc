@@ -1,5 +1,5 @@
 #include "rcrc.h"
-#include "runit/src/runit.h"
+#include "runit.h"
 
 #include <string.h>
 
