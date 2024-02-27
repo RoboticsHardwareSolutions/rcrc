@@ -5,11 +5,16 @@ project(rcrc
         DESCRIPTION
         "crc16/32/64")
 
+#################### MAIN SECTION #######################
+
 add_library(${PROJECT_NAME} crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR})
+
+
+#################### TEST SECTION #######################
 
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_executable(${PROJECT_NAME}_test
@@ -18,14 +23,14 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
             test/test.c)
 
     if (NOT TARGET runit)
-        include(cmake/GitUtils.cmake)
-        git_clone(
-                PROJECT_NAME runit
-                GIT_URL https://gitlab.com/RoboticsHardwareSolutions/rlibs/runit.git
-                GIT_BRANCH main)
+        if (NOT EXISTS ${CMAKE_BINARY_DIR}/runit/src/runit.c)
+            include(cmake/GitUtils.cmake)
+            git_clone(
+                    PROJECT_NAME runit
+                    GIT_URL https://gitlab.com/RoboticsHardwareSolutions/rlibs/runit.git
+                    GIT_BRANCH main)
+        endif ()
         target_include_directories(${PROJECT_NAME}_test PRIVATE ${CMAKE_BINARY_DIR}/runit/src)
-        #    include(${CMAKE_BINARY_DIR}/runit)
-        # Test runner executable testing the static library
     else ()
         target_link_libraries(${PROJECT_NAME}_test PRIVATE runit)
     endif ()
@@ -38,6 +43,9 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     enable_testing()
     add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
 endif ()
+
+
+#################### FORMAT SECTION #######################
 
 set(FILES_FOR_FORMATTING
         crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
