@@ -22,7 +22,7 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
             test/test.c)
 
     if (NOT TARGET runit)
-        if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeList.txt)
+        if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeLists.txt)
             include(cmake/GitUtils.cmake)
             git_clone(
                     PROJECT_NAME runit
