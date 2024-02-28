@@ -18,27 +18,26 @@ target_include_directories(${PROJECT_NAME}
 
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_executable(${PROJECT_NAME}_test
-            test/runit/src/runit.c
             crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
             test/test.c)
 
     if (NOT TARGET runit)
-        if (NOT EXISTS ${CMAKE_BINARY_DIR}/runit/src/runit.c)
+        if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeList.txt)
             include(cmake/GitUtils.cmake)
             git_clone(
                     PROJECT_NAME runit
                     GIT_URL https://gitlab.com/RoboticsHardwareSolutions/rlibs/runit.git
-                    GIT_BRANCH main)
+                    GIT_BRANCH main
+                    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp)
         endif ()
-        target_include_directories(${PROJECT_NAME}_test PRIVATE ${CMAKE_BINARY_DIR}/runit/src)
-    else ()
-        target_link_libraries(${PROJECT_NAME}_test PRIVATE runit)
+        add_subdirectory(test/tmp/runit)
     endif ()
+
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE runit)
 
     target_include_directories(${PROJECT_NAME}_test
             PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}
-    )
+            ${CMAKE_CURRENT_SOURCE_DIR})
 
     enable_testing()
     add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
