@@ -20,6 +20,8 @@ uint16_t crc16_ccitt(const char* buf, unsigned short len);
 
 uint32_t crc32(const char* s, int len);
 
+uint32_t crc32_in_split(uint32_t last_crc, const char* s, int len);
+
 uint64_t crc64(const char* s, int l);
 
 // LSB-first

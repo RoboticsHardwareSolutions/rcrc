@@ -48,11 +48,16 @@ static uint32_t crc32_tab[] =
 /* crc32 hash */
 uint32_t crc32(const char* s, int len)
 {
+    return crc32_in_split(0xFFFFFFFF, s, len);
+}
+
+uint32_t crc32_in_split(uint32_t previous_crc, const char* s, int len_of_split)
+{
     int      i;
     uint32_t crc32val = 0;
-    crc32val ^= 0xFFFFFFFF;
+    crc32val ^= previous_crc == 0xFFFFFFFF ? 0xFFFFFFFF : ~previous_crc;
 
-    for (i = 0; i < len; i++)
+    for (i = 0; i < len_of_split; i++)
     {
         crc32val = crc32_tab[(crc32val ^ s[i]) & 0xFF] ^ ((crc32val >> 8) & 0x00FFFFFF);
     }
