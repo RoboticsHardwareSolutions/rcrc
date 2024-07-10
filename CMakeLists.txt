@@ -26,7 +26,7 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
             include(cmake/GitUtils.cmake)
             git_clone(
                     PROJECT_NAME runit
-                    GIT_URL https://gitlab.com/RoboticsHardwareSolutions/rlibs/runit.git
+                    GIT_URL https://github.com/RoboticsHardwareSolutions/runit
                     GIT_BRANCH main
                     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp)
         endif ()
