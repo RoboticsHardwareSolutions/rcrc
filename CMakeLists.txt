@@ -24,6 +24,7 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     if (NOT TARGET runit)
         if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeLists.txt)
             include(cmake/GitUtils.cmake)
+            file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp)
             git_clone(
                     PROJECT_NAME runit
                     GIT_URL https://github.com/RoboticsHardwareSolutions/runit
