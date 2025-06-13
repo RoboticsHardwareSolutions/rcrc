@@ -59,8 +59,8 @@ void crc64_basic(void)
 
 void crc8_poly(void)
 {
-    uint8_t poly             = 0x31;
-    uint8_t expect           = 0x00;
+    uint8_t poly   = 0x31;
+    uint8_t expect = 0x00;
     runit_true(crc8_poly_msb(poly, 0) == expect);
     expect = 0x31;
     runit_true(crc8_poly_msb(poly, 1) == expect);
@@ -71,8 +71,8 @@ void crc8_poly(void)
 void crc16_poly(void)
 {
     // poly = x^16 + x^12 + x^5 + 1 = 0x1021
-    uint16_t poly             = 0x1021;
-    uint16_t expect           = 0x0000;
+    uint16_t poly   = 0x1021;
+    uint16_t expect = 0x0000;
     runit_true(crc16_poly_msb(poly, 0) == expect);
     expect = 0x1021;
     runit_true(crc16_poly_msb(poly, 1) == expect);
@@ -82,8 +82,8 @@ void crc16_poly(void)
 
 void crc32_polyt(void)
 {
-    uint32_t poly             = 0xedb88320;
-    uint32_t expect           = 0x00000000L;
+    uint32_t poly   = 0xedb88320;
+    uint32_t expect = 0x00000000L;
     runit_true(crc32_poly(poly, 0) == expect);
     expect = 0x77073096L;
     runit_true(crc32_poly(poly, 1) == expect);
