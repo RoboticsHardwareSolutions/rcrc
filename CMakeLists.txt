@@ -40,5 +40,12 @@ set(FILES_FOR_FORMATTING
         crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
         test/test.c
 )
-include(${CMAKE_BINARY_DIR}/_deps/rlibhelper-src/format.cmake)
+if (EXISTS "${rlibhelper_SOURCE_DIR}/format.cmake")
+    include(${rlibhelper_SOURCE_DIR}/format.cmake)
+else ()
+    message(WARNING "format.cmake file not found")
+endif ()
 format_files(${PROJECT_NAME} SOURCES ${FILES_FOR_FORMATTING})
+
+
+
